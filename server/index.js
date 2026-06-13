@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (for production)
 app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 // Dashboard route
