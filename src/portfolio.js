@@ -408,6 +408,31 @@ function initCardMini3D() {
     if (grabbed || state.activeOverlay !== 'about' || e.gamma === null) return;
     phy.targetAngle = clamp(e.gamma / 4, -20, 20);
   });
+
+  // ── Scroll-driven swing ──
+  // The card gently swings in the scroll direction and springs back
+  const overlay = document.getElementById('ov-about');
+  if (overlay) {
+    let lastScrollTop = overlay.scrollTop;
+    let scrollDecay = null;
+
+    overlay.addEventListener('scroll', () => {
+      if (grabbed || state.activeOverlay !== 'about') return;
+
+      const delta = overlay.scrollTop - lastScrollTop;
+      lastScrollTop = overlay.scrollTop;
+
+      // Map scroll delta to a swing angle (scroll down → swing left, up → right)
+      const swingAngle = clamp(delta * 0.35, -12, 12);
+      phy.velocity += swingAngle * 0.06;
+
+      // Reset decay timer: after scrolling stops, let spring bring card back
+      clearTimeout(scrollDecay);
+      scrollDecay = setTimeout(() => {
+        phy.targetAngle = 0;
+      }, 200);
+    }, { passive: true });
+  }
 }
 
 
