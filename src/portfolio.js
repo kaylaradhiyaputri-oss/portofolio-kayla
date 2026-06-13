@@ -104,8 +104,9 @@ function loadSharedGLTF() {
 ══════════════════════════════════════════════ */
 setLoadingProgress(5, 'Initialising scene…')
 
-// Mobile gets a reduced-quality 3D scene (lower pixel ratio, no starfield, simpler render)
+// Mobile gets a reduced-quality 3D scene (lower pixel ratio, no lenis)
 if (IS_TOUCH) {
+  document.body.classList.add('mobile-mode')
   initMobile3D()
 } else {
   initDesktop()
@@ -177,8 +178,8 @@ function initMobile3D() {
   const mouse     = new THREE.Vector2()
   const clock     = new THREE.Clock()
   const accent    = setupLights(scene)
-  // No starfield on mobile — saves geometry and draw calls
-  state.starField = null
+  // Starfield (lighter on mobile — same count but lower draw cost with simpler renderer)
+  state.starField = setupStarField(scene)
 
   el.canvasWrap.appendChild(renderer.domElement)
   setCameraFromScroll(0, camera)
