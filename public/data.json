@@ -2,54 +2,6 @@
   "success": true,
   "data": [
     {
-      "id": "7",
-      "title": "2D Animation",
-      "category": "animation",
-      "category_label": "Animation",
-      "file_path": "/animation/2D Animation.mp4",
-      "file_type": "video",
-      "size_class": "size-wide",
-      "is_extra": false,
-      "display_order": 1,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
-      "id": "8",
-      "title": "3D Animation 02",
-      "category": "animation",
-      "category_label": "Animation",
-      "file_path": "/animation/3D Animation (2).mov",
-      "file_type": "video",
-      "size_class": "size-large",
-      "is_extra": false,
-      "display_order": 2,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
-      "id": "9",
-      "title": "Casino Machine",
-      "category": "animation",
-      "category_label": "Animation",
-      "file_path": "/animation/Casino Machine Animation.mp4",
-      "file_type": "video",
-      "size_class": "size-medium",
-      "is_extra": false,
-      "display_order": 3,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
-      "id": "10",
-      "title": "3D Animation",
-      "category": "animation",
-      "category_label": "Animation",
-      "file_path": "/animation/3d Animation.mov",
-      "file_type": "video",
-      "size_class": "size-wide",
-      "is_extra": true,
-      "display_order": 4,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
       "id": "1",
       "title": "Arctic Monkeys Edit",
       "category": "graphic_design",
@@ -120,54 +72,6 @@
       "is_extra": true,
       "display_order": 6,
       "created_at": "2026-06-13T01:07:09.376Z"
-    },
-    {
-      "id": "13",
-      "title": "Train",
-      "category": "video_editing",
-      "category_label": "Video Editing",
-      "file_path": "/video editing/Train.mp4",
-      "file_type": "video",
-      "size_class": "size-medium",
-      "is_extra": false,
-      "display_order": 3,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
-      "id": "14",
-      "title": "Birthday",
-      "category": "video_editing",
-      "category_label": "Video Editing",
-      "file_path": "/video editing/birthday.mp4",
-      "file_type": "video",
-      "size_class": "size-wide",
-      "is_extra": true,
-      "display_order": 4,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
-      "id": "15",
-      "title": "Library",
-      "category": "video_editing",
-      "category_label": "Video Editing",
-      "file_path": "/video editing/Library.mp4",
-      "file_type": "video",
-      "size_class": "size-wide",
-      "is_extra": true,
-      "display_order": 5,
-      "created_at": "2026-06-13T01:07:09.380Z"
-    },
-    {
-      "id": "16",
-      "title": "Mini Vlog",
-      "category": "video_editing",
-      "category_label": "Video Editing",
-      "file_path": "/video editing/mini vlog.mov",
-      "file_type": "video",
-      "size_class": "size-wide",
-      "is_extra": true,
-      "display_order": 6,
-      "created_at": "2026-06-13T01:07:09.380Z"
     }
   ]
 }
