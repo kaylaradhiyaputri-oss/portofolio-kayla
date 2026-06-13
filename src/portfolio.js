@@ -5,8 +5,10 @@ import Lenis from '@studio-freight/lenis'
 /* ══════════════════════════════════════════════
    CONSTANTS
 ══════════════════════════════════════════════ */
-const MODEL_URL         = '/buatportooo.glb'
-const HERO_IMAGE_URL    = '/background_hero.png'
+// Use relative paths so GitHub Pages subpath works
+const BASE = './'
+const MODEL_URL         = BASE + 'buatportooo.glb'
+const HERO_IMAGE_URL    = BASE + 'background_hero.png'
 const MAX_PIXEL_RATIO   = 2
 const PARALLAX_STRENGTH = 0.12
 const STAR_COUNT        = 160
@@ -1035,6 +1037,13 @@ async function initWorkFromAPI() {
   }
 
   if (!items || !items.length) return
+
+  // Normalize absolute paths to relative (for GitHub Pages subpath deployment)
+  items.forEach(item => {
+    if (item.file_path && item.file_path.startsWith('/')) {
+      item.file_path = '.' + item.file_path
+    }
+  })
 
   // Group by category
   const groups = {}
