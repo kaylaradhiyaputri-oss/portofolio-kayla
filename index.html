@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kayla Radhiya - UI/UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       LOADING SCREEN — Shopify Winter 2026 style
+       Square bar, minimal, no curves
+  ══════════════════════════════════════════ -->
+  <div id="loading-screen">
+    <div class="login-noise"></div>
+    <div class="login-content">
+      <span class="loading-brand">kayl</span>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar-track">
+          <div class="loading-bar-fill" id="loading-bar-fill"></div>
+        </div>
+        <div class="loading-bar-meta">
+          <div class="login-note" id="loading-status">Initialising...</div>
+          <div class="loading-pct" id="loading-pct">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       MAIN APP
+  ══════════════════════════════════════════ -->
+  <div id="app" class="app-hidden">
+
+    <div id="cur"></div>
+    <div id="cur-ring"></div>
+    <div id="progress"></div>
+
+    <!-- Mobile hero — name + title only, shown over the 3D scene -->
+    <div class="mobile-hero">
+      <div class="mh-eyebrow">Portfolio 2025</div>
+      <div class="mh-name">Kayla</div>
+      <div class="mh-title">UI/UX &amp; Visual Designer</div>
+    </div>
+
+    <!-- 3D scene (desktop only) -->
+    <div id="scroll-container">
+      <div id="canvas-wrap"></div>
+    </div>
+
+    <!-- Desktop-only notice for non-desktop devices -->
+    <div id="desktop-notice">
+      <div class="dn-inner">
+        <div class="dn-brand">kayl</div>
+        <h2>This portfolio is<br>best viewed on <span>desktop</span></h2>
+        <p>For the full 3D interactive experience, please visit on a desktop browser.</p>
+        <div class="dn-social">
+          <a href="https://instagram.com/kaylaradhiya" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.linkedin.com/in/kayla-radhiya-putri-ghaisani-97337221a/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:kayla.radhiyaputri@email.com">Email</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="scroll-hint">
+      <span>SCROLL TO OPEN</span>
+      <div class="scroll-line"></div>
+    </div>
+    <div id="click-hint">CLICK AN ITEM TO EXPLORE</div>
+
+    <!-- Labels -->
+    <div class="ilabel" id="lbl-id" style="top:35%;left:6%">
+      <div class="dot"></div>
+      <div class="lname">ID CARD</div>
+      <div class="ldesc">About Me</div>
+    </div>
+    <div class="ilabel" id="lbl-ph" style="top:30%;right:8%">
+      <div class="dot"></div>
+      <div class="lname">PHONE</div>
+      <div class="ldesc">Connect</div>
+    </div>
+    <div class="ilabel" id="lbl-lp" style="top:58%;left:50%">
+      <div class="dot"></div>
+      <div class="lname">LAPTOP</div>
+      <div class="ldesc">My Work</div>
+    </div>
+
+
+    <!-- ══════════════════════
+         ABOUT OVERLAY
+    ══════════════════════ -->
+    <div class="overlay about-overlay" id="ov-about">
+      <button class="close-btn" onclick="closeOv()">&times;</button>
+
+      <div class="about-wrap">
+        <div class="about-top">
+
+          <!-- ID Card 3D — no rope -->
+          <div class="card-hanger-wrap" id="card-hanger-wrap">
+            <canvas id="card-mini-canvas" width="200" height="320"></canvas>
+          </div>
+
+          <div class="about-bio">
+            <div class="ov-eye">ID CARD — ABOUT ME</div>
+            <h2>Hello,<br>I'm <span>Kayla.</span></h2>
+            <p>Currently diving deep into <em>tech</em> and <em>creative spaces</em>. A <strong>Computer Engineering</strong> student dedicated to the process of learning, building, and staying curious. I spend most of my time playing with layouts and timelines. I love mixing technical logic with creative <em>design</em> and <em>video editing</em> to make cool things happen.</p>
+          </div>
+        </div>
+
+        <!-- SKILLS SECTION — horizontal scroll-zoom -->
+        <div class="skills-sticky-spacer" id="skills-spacer">
+          <div class="skills-sticky">
+            <div class="skills-left">
+              <h3>Software<br>Skills</h3>
+            </div>
+
+            <div class="skills-viewport">
+              <div class="skills-track" id="skills-track">
+
+                <!-- Photoshop -->
+                <div class="skill-card" data-name="Photoshop" data-level="90">
+                  <div class="skill-card-logo" style="--glow:#31a8ff">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#001933"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#31a8ff" stroke-width="1.2" opacity="0.35"/>
+                      <text x="36" y="46" text-anchor="middle" fill="#31a8ff" font-family="'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="26" letter-spacing="-1">Ps</text>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Photoshop</div>
+                    <div class="skill-card-score">9/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:90%"></div></div>
+                    <div class="skill-card-desc">Advanced photo manipulation, compositing, and digital illustration. My primary tool for complex visual storytelling and poster design.</div>
+                  </div>
+                </div>
+
+                <!-- Illustrator -->
+                <div class="skill-card" data-name="Illustrator" data-level="80">
+                  <div class="skill-card-logo" style="--glow:#ff9a00">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#2d1100"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#ff9a00" stroke-width="1.2" opacity="0.35"/>
+                      <text x="36" y="46" text-anchor="middle" fill="#ff9a00" font-family="'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="26" letter-spacing="-1">Ai</text>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Illustrator</div>
+                    <div class="skill-card-score">8/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:80%"></div></div>
+                    <div class="skill-card-desc">Vector-based illustration, logo systems, and high-fidelity typography. Used for creating scalable brand assets.</div>
+                  </div>
+                </div>
+
+                <!-- After Effects -->
+                <div class="skill-card" data-name="After Effects" data-level="70">
+                  <div class="skill-card-logo" style="--glow:#9999ff">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#1a0040"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#9999ff" stroke-width="1.2" opacity="0.35"/>
+                      <text x="36" y="46" text-anchor="middle" fill="#9999ff" font-family="'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="26" letter-spacing="-1">Ae</text>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">After Effects</div>
+                    <div class="skill-card-score">7/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:70%"></div></div>
+                    <div class="skill-card-desc">Motion graphics and visual effects. Bringing static designs to life with kinetic typography and smooth transitions.</div>
+                  </div>
+                </div>
+
+                <!-- Premiere Pro -->
+                <div class="skill-card" data-name="Premiere Pro" data-level="70">
+                  <div class="skill-card-logo" style="--glow:#ea77ff">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#00004d"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#ea77ff" stroke-width="1.2" opacity="0.35"/>
+                      <text x="36" y="46" text-anchor="middle" fill="#ea77ff" font-family="'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="26" letter-spacing="-1">Pr</text>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Premiere Pro</div>
+                    <div class="skill-card-score">7/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:70%"></div></div>
+                    <div class="skill-card-desc">Professional non-linear video editing for high-quality content, social clips, and short-form storytelling.</div>
+                  </div>
+                </div>
+
+                <!-- Figma -->
+                <div class="skill-card" data-name="Figma" data-level="70">
+                  <div class="skill-card-logo" style="--glow:#a259ff">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#0d0d1e"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#a259ff" stroke-width="1.2" opacity="0.3"/>
+                      <rect x="20" y="14" width="16" height="22" rx="8" stroke="#F24E1E" stroke-width="1.8"/>
+                      <rect x="36" y="14" width="16" height="22" rx="8" stroke="#a259ff" stroke-width="1.8"/>
+                      <rect x="20" y="36" width="16" height="22" rx="8" stroke="#0ACF83" stroke-width="1.8"/>
+                      <circle cx="44" cy="47" r="8" stroke="#1ABCFE" stroke-width="1.8"/>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Figma</div>
+                    <div class="skill-card-score">7/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:70%"></div></div>
+                    <div class="skill-card-desc">UI design and rapid prototyping. I use Figma to build cohesive design systems and interactive web flows.</div>
+                  </div>
+                </div>
+
+                <!-- Canva -->
+                <div class="skill-card" data-name="Canva" data-level="100">
+                  <div class="skill-card-logo" style="--glow:#00c4cc">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#0d0820"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#7d2ae8" stroke-width="1.2" opacity="0.4"/>
+                      <defs>
+                        <linearGradient id="cgr" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stop-color="#7d2ae8"/>
+                          <stop offset="100%" stop-color="#00c4cc"/>
+                        </linearGradient>
+                      </defs>
+                      <path d="M48 24 A16 16 0 1 0 48 48" stroke="url(#cgr)" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Canva</div>
+                    <div class="skill-card-score">10/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:100%"></div></div>
+                    <div class="skill-card-desc">High-efficiency social media design and layout production. Mastery in quick turnarounds for marketing materials.</div>
+                  </div>
+                </div>
+
+                <!-- DaVinci Resolve -->
+                <div class="skill-card" data-name="DaVinci Resolve" data-level="75">
+                  <div class="skill-card-logo" style="--glow:#f5a623">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#111"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#f5a623" stroke-width="1.2" opacity="0.35"/>
+                      <circle cx="36" cy="36" r="16" stroke="#f5a623" stroke-width="1.5" opacity="0.5"/>
+                      <circle cx="36" cy="36" r="6" stroke="#f5a623" stroke-width="1.8"/>
+                      <line x1="36" y1="20" x2="36" y2="26" stroke="#f5a623" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="36" y1="46" x2="36" y2="52" stroke="#f5a623" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="20" y1="36" x2="26" y2="36" stroke="#f5a623" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="46" y1="36" x2="52" y2="36" stroke="#f5a623" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">DaVinci Resolve</div>
+                    <div class="skill-card-score">7.5/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:75%"></div></div>
+                    <div class="skill-card-desc">Expert color grading and cinematic finishing. Used for precise color science and high-end video output.</div>
+                  </div>
+                </div>
+
+                <!-- Procreate -->
+                <div class="skill-card" data-name="Procreate" data-level="80">
+                  <div class="skill-card-logo" style="--glow:#c8e6c9">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#111822"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#c8e6c9" stroke-width="1.2" opacity="0.3"/>
+                      <path d="M36 16 L43 30 L43 50 Q36 57 29 50 L29 30 Z" stroke="#c8e6c9" stroke-width="1.8" stroke-linejoin="round"/>
+                      <circle cx="36" cy="13" r="4" stroke="#c8e6c9" stroke-width="1.8"/>
+                      <line x1="36" y1="17" x2="36" y2="30" stroke="#c8e6c9" stroke-width="1.5" opacity="0.5"/>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Procreate</div>
+                    <div class="skill-card-score">8/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:80%"></div></div>
+                    <div class="skill-card-desc">Organic digital illustration and character sketching. My go-to for hand-drawn assets and initial creative concepts.</div>
+                  </div>
+                </div>
+
+                <!-- Blender -->
+                <div class="skill-card" data-name="Blender" data-level="60">
+                  <div class="skill-card-logo" style="--glow:#ea7600">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="72" height="72" rx="14" fill="#150800"/>
+                      <rect x="1" y="1" width="70" height="70" rx="13" stroke="#ea7600" stroke-width="1.2" opacity="0.35"/>
+                      <ellipse cx="36" cy="40" rx="18" ry="8" stroke="#ea7600" stroke-width="1.5" opacity="0.45"/>
+                      <circle cx="36" cy="36" r="8" stroke="#ea7600" stroke-width="1.8"/>
+                      <circle cx="36" cy="36" r="3" fill="#ea7600"/>
+                      <line x1="44" y1="30" x2="54" y2="20" stroke="#ea7600" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="skill-card-info">
+                    <div class="skill-card-name">Blender</div>
+                    <div class="skill-card-score">6/10</div>
+                    <div class="skill-card-bar"><div class="skill-card-bar-fill" style="--w:60%"></div></div>
+                    <div class="skill-card-desc">3D modeling and environment building. Exploring the third dimension for more immersive visual experiences.</div>
+                  </div>
+                </div>
+
+              </div><!-- /skills-track -->
+            </div><!-- /skills-viewport -->
+
+          </div><!-- /skills-sticky -->
+        </div><!-- /skills-sticky-spacer -->
+
+      </div><!-- /about-wrap -->
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-top">
+            <div class="footer-brand themed-kayl">kayl</div>
+            <div class="footer-tagline">Where Logic Meets Creativity</div>
+          </div>
+          <div class="footer-divider"></div>
+          <div class="footer-bottom">
+            <div class="footer-links">
+              <button onclick="closeOv()" class="footer-link">Work</button>
+              <button onclick="closeOv()" class="footer-link">About</button>
+              <a href="mailto:kayla@email.com" class="footer-link">Contact</a>
+            </div>
+            <div class="footer-copy">© 2025 Kayla Radhiya.</div>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /ov-about -->
+
+
+    <!-- ══════════════════════
+         PHONE / SOCIAL OVERLAY
+    ══════════════════════ -->
+    <div class="overlay" id="ov-phone">
+      <button class="close-btn" onclick="closeOv()">&times;</button>
+
+      <div class="connect-wrap ov-inner">
+        <div class="ov-eye">PHONE — LET'S CONNECT</div>
+        <h2>Let's<br><span>Talk.</span></h2>
+        <p class="connect-sub">Open for collaborations, freelance projects,<br>or just a good conversation about design.</p>
+
+        <div class="social-links-grid">
+
+          <a href="https://instagram.com/kaylaradhiya" class="sli" data-brand="instagram" target="_blank" rel="noopener">
+            <div class="sli-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/>
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="sli-info">
+              <div class="sli-platform">Instagram</div>
+              <div class="sli-handle">@kaylaradhiya</div>
+            </div>
+            <div class="sli-arrow">↗</div>
+          </a>
+
+          <a href="https://www.linkedin.com/in/kayla-radhiya-putri-ghaisani-97337221a/" class="sli" data-brand="linkedin" target="_blank" rel="noopener">
+            <div class="sli-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 10v7M7 7v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M11 17v-4a2 2 0 0 1 4 0v4M11 10v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="sli-info">
+              <div class="sli-platform">LinkedIn</div>
+              <div class="sli-handle">Kayla Radhiya P.G.</div>
+            </div>
+            <div class="sli-arrow">↗</div>
+          </a>
+
+          <a href="https://www.tiktok.com/@.radhiya?_r=1&_t=ZS-969yCe3QjOm" class="sli" data-brand="tiktok" target="_blank" rel="noopener">
+            <div class="sli-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="sli-info">
+              <div class="sli-platform">TikTok</div>
+              <div class="sli-handle">@.radhiya</div>
+            </div>
+            <div class="sli-arrow">↗</div>
+          </a>
+
+          <a href="mailto:kayla.radhiyaputri@email.com" class="sli" data-brand="email">
+            <div class="sli-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 8l10 7 10-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="sli-info">
+              <div class="sli-platform">Email</div>
+              <div class="sli-handle">kayla.radhiyaputri@email.com</div>
+            </div>
+            <div class="sli-arrow">↗</div>
+          </a>
+
+        </div><!-- /social-links-grid -->
+
+        <div class="connect-avail">
+          <div class="avail-dot"></div>
+          <span>Available for freelance &amp; collaborations</span>
+        </div>
+      </div><!-- /connect-wrap -->
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-top">
+            <div class="footer-brand themed-kayl">kayl</div>
+            <div class="footer-tagline">Where Logic Meets Creativity</div>
+          </div>
+          <div class="footer-divider"></div>
+          <div class="footer-bottom">
+            <div class="footer-links">
+              <button onclick="closeOv()" class="footer-link">Work</button>
+              <button onclick="closeOv()" class="footer-link">About</button>
+              <a href="mailto:kayla@email.com" class="footer-link">Contact</a>
+            </div>
+            <div class="footer-copy">© 2025 Kayla Radhiya.</div>
+          </div>
+        </div>
+      </footer>
+    </div><!-- /ov-phone -->
+
+
+    <!-- ══════════════════════
+         LAPTOP overlay
+    ══════════════════════ -->
+    <div class="overlay work-overlay" id="ov-laptop">
+      <button class="close-btn" onclick="closeOv()">&times;</button>
+      <div class="work-board" id="work-board">
+        <header class="work-hero">
+          <h2>Work Overview</h2>
+        </header>
+
+        <section class="work-category" id="work-graphic" data-work-section data-tone="dark" data-category="graphic_design">
+          <div class="work-category-header">
+            <div class="work-label">Graphic Design</div>
+            <div class="work-label-tag">Visual</div>
+          </div>
+          <div class="work-grid" data-work-grid></div>
+          <div class="work-actions">
+            <span class="work-count" data-work-count></span>
+            <button class="work-more" type="button" data-work-more>View More</button>
+          </div>
+        </section>
+
+        <section class="work-category" id="work-animation" data-work-section data-tone="mid" data-category="animation">
+          <div class="work-category-header">
+            <div class="work-label">Animation</div>
+            <div class="work-label-tag">Motion</div>
+          </div>
+          <div class="work-grid" data-work-grid></div>
+          <div class="work-actions">
+            <span class="work-count" data-work-count></span>
+            <button class="work-more" type="button" data-work-more>View More</button>
+          </div>
+        </section>
+
+        <section class="work-category" id="work-video" data-work-section data-tone="mint" data-category="video_editing">
+          <div class="work-category-header">
+            <div class="work-label">Video Editing</div>
+            <div class="work-label-tag">Film</div>
+          </div>
+          <div class="work-grid" data-work-grid></div>
+          <div class="work-actions">
+            <span class="work-count" data-work-count></span>
+            <button class="work-more" type="button" data-work-more>View More</button>
+          </div>
+        </section>
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-top">
+            <div class="footer-brand themed-kayl">kayl</div>
+            <div class="footer-tagline">Where Logic Meets Creativity</div>
+          </div>
+          <div class="footer-divider"></div>
+          <div class="footer-bottom">
+            <div class="footer-links">
+              <button onclick="closeOv()" class="footer-link">Work</button>
+              <button onclick="closeOv()" class="footer-link">About</button>
+              <a href="mailto:kayla@email.com" class="footer-link">Contact</a>
+            </div>
+            <div class="footer-copy">© 2025 Kayla Radhiya.</div>
+          </div>
+        </div>
+      </footer>
+    </div><!-- /ov-laptop -->
+
+  </div><!-- /app -->
+
+  <script type="module" src="/src/portfolio.js"></script>
+
+</body>
+</html>

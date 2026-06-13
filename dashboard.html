@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — Portfolio Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard.css"/>
+</head>
+<body>
+
+  <div class="dash-container">
+
+    <!-- Header -->
+    <header class="dash-header">
+      <h1>Portfolio <span>Dashboard</span></h1>
+      <a href="/" class="dash-back">&#8592; Back to Portfolio</a>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="loading">Loading stats</div>
+    </div>
+
+    <!-- Add New Item Form -->
+    <div class="form-panel" id="add-form-panel">
+      <h3>Add New Item</h3>
+      <form id="add-form">
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="add-title">Title</label>
+            <input type="text" id="add-title" name="title" placeholder="e.g. My Project Title" required/>
+          </div>
+
+          <div class="form-group">
+            <label for="add-category">Category</label>
+            <select id="add-category" name="category" required>
+              <option value="graphic_design">Graphic Design</option>
+              <option value="animation">Animation</option>
+              <option value="video_editing">Video Editing</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="add-size">Size Class</label>
+            <select id="add-size" name="size_class">
+              <option value="size-medium">Medium</option>
+              <option value="size-tall">Tall</option>
+              <option value="size-wide">Wide</option>
+              <option value="size-large">Large</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="add-order">Display Order</label>
+            <input type="number" id="add-order" name="display_order" value="0" min="0"/>
+          </div>
+
+          <div class="form-group full-width">
+            <label>File Upload</label>
+            <div class="upload-area" id="add-upload-area">
+              <div class="upload-icon">&#8593;</div>
+              <div class="upload-text">Drop file here or <span>click to browse</span></div>
+              <div class="upload-filename" id="add-upload-filename"></div>
+            </div>
+            <input type="file" id="add-file-input" style="display:none" accept="image/*,video/*"/>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="add-file-path">Or enter file path / Google Drive link</label>
+            <input type="text" id="add-file-path" name="file_path" placeholder="e.g. /graphic design/my-image.png or https://drive.google.com/file/d/..."/>
+          </div>
+
+          <div class="form-group">
+            <label for="add-file-type">File Type</label>
+            <select id="add-file-type" name="file_type">
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="toggle-wrap">
+              <label class="toggle">
+                <input type="checkbox" id="add-is-extra" name="is_extra"/>
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label">Hidden (behind "View More")</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Item</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <!-- Items List -->
+    <div class="items-section">
+      <div class="section-header">
+        <h2>Portfolio Items</h2>
+        <button class="btn btn-secondary btn-sm" id="refresh-btn">Refresh</button>
+      </div>
+      <div id="items-container">
+        <div class="loading">Loading items</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal" style="position:relative">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h3>Edit Item</h3>
+      <form id="edit-form">
+        <input type="hidden" id="edit-id" name="id"/>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="edit-title">Title</label>
+            <input type="text" id="edit-title" name="title" required/>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-category">Category</label>
+            <select id="edit-category" name="category" required>
+              <option value="graphic_design">Graphic Design</option>
+              <option value="animation">Animation</option>
+              <option value="video_editing">Video Editing</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-size">Size Class</label>
+            <select id="edit-size" name="size_class">
+              <option value="size-medium">Medium</option>
+              <option value="size-tall">Tall</option>
+              <option value="size-wide">Wide</option>
+              <option value="size-large">Large</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-order">Display Order</label>
+            <input type="number" id="edit-order" name="display_order" min="0"/>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="edit-file-path">File Path / Google Drive Link</label>
+            <input type="text" id="edit-file-path" name="file_path" required/>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Upload New File (optional)</label>
+            <div class="upload-area" id="edit-upload-area">
+              <div class="upload-icon">&#8593;</div>
+              <div class="upload-text">Drop file here or <span>click to browse</span></div>
+              <div class="upload-filename" id="edit-upload-filename"></div>
+            </div>
+            <input type="file" id="edit-file-input" style="display:none" accept="image/*,video/*"/>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-file-type">File Type</label>
+            <select id="edit-file-type" name="file_type">
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="toggle-wrap">
+              <label class="toggle">
+                <input type="checkbox" id="edit-is-extra" name="is_extra"/>
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label">Hidden (behind "View More")</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" id="edit-cancel">Cancel</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="/src/dashboard.js"></script>
+
+</body>
+</html>

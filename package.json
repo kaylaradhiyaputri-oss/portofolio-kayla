@@ -1,0 +1,23 @@
+{
+  "name": "portfolio-viewer",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"node server/index.js\"",
+    "dev:vite": "vite",
+    "dev:server": "node server/index.js",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@studio-freight/lenis": "^1.0.42",
+    "concurrently": "^10.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "msnodesqlv8": "^5.2.0",
+    "mssql": "^12.5.5",
+    "multer": "^2.1.1",
+    "three": "^0.128.0"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
+  }
+}
