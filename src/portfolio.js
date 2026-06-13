@@ -1225,7 +1225,7 @@ function addMobileVideoPlayButtons() {
         iframe.src = `https://drive.google.com/file/d/${fileId}/preview`
         iframe.allow = 'autoplay'
         iframe.allowFullscreen = true
-        iframe.style.cssText = 'width:100%;aspect-ratio:16/9;border:none;display:block'
+        iframe.style.cssText = 'width:100%;border:none;display:block;pointer-events:auto'
         driveImg.replaceWith(iframe)
       } else if (iframe) {
         iframe.style.pointerEvents = 'auto'
