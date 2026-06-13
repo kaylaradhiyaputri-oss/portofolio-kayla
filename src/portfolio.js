@@ -88,6 +88,17 @@ document.addEventListener('visibilitychange', () => {
   tabVisible = !document.hidden
 })
 
+/* Shared GLB cache — main scene and ID card both use the same model */
+let _gltfPromise = null
+function loadSharedGLTF() {
+  if (!_gltfPromise) {
+    _gltfPromise = new Promise((resolve, reject) => {
+      new GLTFLoader().load(MODEL_URL, resolve, undefined, reject)
+    })
+  }
+  return _gltfPromise
+}
+
 /* ══════════════════════════════════════════════
    ENTRY
 ══════════════════════════════════════════════ */
@@ -132,7 +143,10 @@ function initDesktop() {
     const dt = clock.getDelta()
     state.elapsedTime += dt
 
+    // Always update cursor, but skip heavy 3D work when overlay covers scene
     updateCursorRing()
+    if (state.activeOverlay) return
+
     smoothParallax()
     tickScrollAnimation()
     setCameraFromScroll(state.scroll, camera)
@@ -163,7 +177,8 @@ function initMobile3D() {
   const mouse     = new THREE.Vector2()
   const clock     = new THREE.Clock()
   const accent    = setupLights(scene)
-  state.starField = setupStarField(scene)
+  // No starfield on mobile — saves geometry and draw calls
+  state.starField = null
 
   el.canvasWrap.appendChild(renderer.domElement)
   setCameraFromScroll(0, camera)
@@ -188,6 +203,10 @@ function initMobile3D() {
   ;(function loop(now) {
     requestAnimationFrame(loop)
     if (!tabVisible) return  // Skip all work when tab is hidden
+    if (state.activeOverlay) {  // Skip 3D render when overlay covers the scene
+      clock.getDelta()  // consume delta so animations don't jump
+      return
+    }
 
     // Throttle to 30fps on mobile
     if (now - lastFrame < FRAME_INTERVAL) return
@@ -258,8 +277,8 @@ function initCardMini3D() {
   if (!canvas) return;
 
   const W = 400, H = 500;
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !IS_TOUCH });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, IS_TOUCH ? 1.5 : 2));
   renderer.setSize(W, H);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -283,7 +302,7 @@ function initCardMini3D() {
 
   let cardReady = false;
 
-  new GLTFLoader().load(MODEL_URL, (gltf) => {
+  loadSharedGLTF().then((gltf) => {
     // Find the id_card group node
     let idCardNode = null;
     gltf.scene.traverse((n) => {
@@ -1129,8 +1148,13 @@ async function initWorkFromAPI() {
 
       let media
       if (fileId && item.file_type === 'video') {
-        // Google Drive video — use iframe embed
-        media = driveVideoEmbed(fileId)
+        if (IS_TOUCH) {
+          // Mobile: show thumbnail, lazy-load iframe on tap (saves massive resources)
+          media = `<img src="${driveImageUrl(fileId)}" alt="${item.title}" data-drive-video="${fileId}" style="cursor:pointer">`
+        } else {
+          // Desktop: lazy iframe (loads only when scrolled into view)
+          media = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" loading="lazy" allow="autoplay" allowfullscreen style="width:100%;aspect-ratio:16/9;border:none;display:block;pointer-events:none"></iframe>`
+        }
       } else if (fileId && item.file_type === 'image') {
         // Google Drive image — use thumbnail URL
         media = `<img src="${driveImageUrl(fileId)}" alt="${item.title}">`
@@ -1172,7 +1196,8 @@ function addMobileVideoPlayButtons() {
   document.querySelectorAll('.work-card').forEach(card => {
     const video   = card.querySelector('video')
     const iframe  = card.querySelector('iframe')
-    if (!video && !iframe) return
+    const driveImg = card.querySelector('img[data-drive-video]')
+    if (!video && !iframe && !driveImg) return
 
     // Skip if play button already added
     if (card.querySelector('.work-card-play')) return
@@ -1186,17 +1211,23 @@ function addMobileVideoPlayButtons() {
       e.stopPropagation()
       if (video) {
         video.style.pointerEvents = 'auto'
-        // Remove native controls on mobile to avoid black overlay bar
         video.removeAttribute('controls')
         video.play().catch(() => {})
-        // Tap video to toggle play/pause (since native controls are gone)
         video.addEventListener('click', () => {
           if (video.paused) video.play().catch(() => {})
           else video.pause()
         })
+      } else if (driveImg) {
+        // Lazy-load Drive iframe on tap (replaces thumbnail)
+        const fileId = driveImg.dataset.driveVideo
+        const iframe = document.createElement('iframe')
+        iframe.src = `https://drive.google.com/file/d/${fileId}/preview`
+        iframe.allow = 'autoplay'
+        iframe.allowFullscreen = true
+        iframe.style.cssText = 'width:100%;aspect-ratio:16/9;border:none;display:block'
+        driveImg.replaceWith(iframe)
       } else if (iframe) {
         iframe.style.pointerEvents = 'auto'
-        // Trigger iframe click to start playback
         iframe.click()
       }
       btn.style.display = 'none'
