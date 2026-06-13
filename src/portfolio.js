@@ -445,18 +445,23 @@ function initSkillScrollZoom() {
     // Move track left
     track.style.transform = `translateX(${-progress * maxTranslate}px)`
 
-    // Determine which card is centered and mark it visible
+    // Determine which cards are near-center and mark them visible
+    // Wider threshold so cards appear smoothly as they approach center
     const cardWidth = 320 + 24  // card flex-basis + gap
+    const threshold = cardWidth * 0.8
     cards.forEach((card, i) => {
       const cardCenter = (i * cardWidth + cardWidth / 2) - (progress * maxTranslate)
       const vpCenter   = viewportWidth / 2
-      const isActive   = Math.abs(cardCenter - vpCenter) < cardWidth * 0.6
+      const isActive   = Math.abs(cardCenter - vpCenter) < threshold
       card.classList.toggle('visible', isActive)
     })
   }
 
   overlay.addEventListener('scroll', update, { passive: true })
-  update()  // initial state
+  // Re-run on resize to recalculate layout metrics
+  window.addEventListener('resize', update)
+  // Delay initial run to ensure layout is settled
+  requestAnimationFrame(() => requestAnimationFrame(update))
 }
 
 /* ══════════════════════════════════════════════
@@ -546,7 +551,8 @@ function handleOverlayTouchStart(e) {
 }
 
 function handleOverlayTouchMove(e) {
-  if (e.target.closest('video, button, a, input, textarea, select')) return
+  // Don't intercept touches on interactive elements or the 3D card canvas
+  if (e.target.closest('video, button, a, input, textarea, select, canvas')) return
 
   const touch = e.touches[0]
   const ov = e.currentTarget
