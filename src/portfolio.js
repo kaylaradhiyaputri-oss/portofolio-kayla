@@ -145,7 +145,8 @@ function initDesktop() {
    simplified interaction model
 ══════════════════════════════════════════════ */
 function initMobile3D() {
-  lenis = new Lenis({ duration: 1.2, smooth: true })
+  // Don't use Lenis on mobile - native scroll is smoother with touch
+  lenis = null
 
   const renderer  = createMobileRenderer()
   const scene     = new THREE.Scene()
@@ -162,20 +163,20 @@ function initMobile3D() {
   loadModel(scene, camera, renderer, raycaster, mouse)
   bindMobileEvents(renderer, scene, camera, raycaster, mouse)
 
-  // Scroll handler — same as desktop
-  lenis.on('scroll', ({ scroll: scrollY }) => {
+  // Scroll handler — use native scroll on mobile (smoother than Lenis)
+  window.addEventListener('scroll', () => {
     const max = document.documentElement.scrollHeight - window.innerHeight
-    state.scroll = clamp(scrollY / max, 0, 1)
+    state.scroll = clamp(window.scrollY / max, 0, 1)
     const show = state.scroll > 0.60
     if (show !== state.itemsVisible) {
       state.itemsVisible = show
       el.clickHint.style.opacity = show ? '1' : '0'
     }
-  })
+  }, { passive: true })
 
   ;(function loop() {
     requestAnimationFrame(loop)
-    lenis.raf(performance.now())
+    // No lenis.raf() on mobile
     const dt = clock.getDelta()
     state.elapsedTime += dt
 
@@ -521,14 +522,13 @@ function openOverlay(id) {
 
   if (lenis) lenis.stop()
 
-  // Lenis is paused while an overlay is open, so each overlay owns its scroll.
+  // Desktop: custom wheel handler for smooth overlay scroll
+  // Mobile: use native scroll (no custom handlers - much smoother)
   if (!IS_TOUCH) {
     overlayEl._scrollTarget = overlayEl.scrollTop
     overlayEl.addEventListener('wheel', handleOverlayWheel, { passive: false })
-  } else {
-    overlayEl.addEventListener('touchstart', handleOverlayTouchStart, { passive: true })
-    overlayEl.addEventListener('touchmove', handleOverlayTouchMove, { passive: false })
   }
+  // Mobile uses native overflow scrolling via CSS
 
   overlayEl.classList.add('active')
   lazyLoadMedia(overlayEl)
@@ -541,11 +541,9 @@ function doCloseOverlay() {
   if (overlayEl) {
     overlayEl.classList.remove('active')
     overlayEl.removeEventListener('wheel', handleOverlayWheel)
-    overlayEl.removeEventListener('touchstart', handleOverlayTouchStart)
-    overlayEl.removeEventListener('touchmove', handleOverlayTouchMove)
+    // Mobile uses native scroll - no touch handlers to remove
     overlayEl.scrollTop     = 0
     overlayEl._scrollTarget = 0
-    overlayEl._touchY       = null
     if (overlayEl._scrollRaf) {
       cancelAnimationFrame(overlayEl._scrollRaf)
       overlayEl._scrollRaf = null
