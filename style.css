@@ -542,9 +542,23 @@ canvas { display: block; }
 .work-card.is-hidden { display: none; }
 .work-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 60px rgba(0,0,0,0.5); z-index: 2; }
 
-.work-card img, .work-card video {
+.work-card img {
   width: 100%; display: block; object-fit: cover; background: #111;
   transition: transform 0.6s var(--ease-out);
+}
+.work-card video {
+  width: 100%; display: block; object-fit: cover; background: #111;
+  transition: transform 0.6s var(--ease-out);
+}
+/* Shrink video controls bar */
+.work-card video::-webkit-media-controls-panel {
+  height: 24px;
+  padding: 0 4px;
+}
+.work-card video::-webkit-media-controls-timeline {
+  padding: 0;
+  margin: 0;
+  height: 12px;
 }
 .work-card iframe {
   width: 100%; display: block; background: #111; border: none;
@@ -553,8 +567,8 @@ canvas { display: block; }
 
 .work-meta {
   position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 40px 24px 20px; color: #fff;
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  padding: 12px 16px 10px; color: #fff;
+  background: transparent;
   transform: translateY(10px); opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none;
 }

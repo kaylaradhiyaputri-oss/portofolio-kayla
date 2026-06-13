@@ -708,8 +708,21 @@ function setupStarField(scene) {
 ══════════════════════════════════════════════ */
 function loadModel(scene, camera, renderer, raycaster, mouse) {
   setLoadingProgress(10, 'Loading 3D model…')
+
+  // Fallback: if server doesn't report content-length, slowly tick progress
+  let fallbackTimer = setInterval(() => {
+    const bar = document.getElementById('loading-bar-fill')
+    if (!bar) return
+    const current = parseFloat(bar.style.width) || 10
+    if (current < 70) {
+      const next = current + (70 - current) * 0.04  // asymptotic approach to 70
+      setLoadingProgress(Math.round(next), 'Loading 3D model…')
+    }
+  }, 300)
+
   new GLTFLoader().load(MODEL_URL,
     (gltf) => {
+      clearInterval(fallbackTimer)
       state.model = gltf.scene
       setLoadingProgress(80, 'Building scene…')
       centerModel(state.model)
@@ -722,10 +735,13 @@ function loadModel(scene, camera, renderer, raycaster, mouse) {
       setTimeout(dismissLoadingScreen, 600)
     },
     (xhr) => {
-      if (xhr.lengthComputable)
+      if (xhr.lengthComputable) {
+        clearInterval(fallbackTimer)
         setLoadingProgress(Math.round((xhr.loaded / xhr.total) * 70) + 10, 'Loading 3D model…')
+      }
     },
     (err) => {
+      clearInterval(fallbackTimer)
       console.error('GLB error:', err)
       setLoadingProgress(100, 'Ready!')
       setTimeout(dismissLoadingScreen, 400)
