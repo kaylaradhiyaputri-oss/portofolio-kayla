@@ -82,6 +82,12 @@ const state = {
 /* Module-level lenis reference so closeOv() can call lenis.start() */
 let lenis = null
 
+/* Pause rendering when tab is hidden — saves CPU/battery */
+let tabVisible = true
+document.addEventListener('visibilitychange', () => {
+  tabVisible = !document.hidden
+})
+
 /* ══════════════════════════════════════════════
    ENTRY
 ══════════════════════════════════════════════ */
@@ -121,6 +127,7 @@ function initDesktop() {
 
   ;(function loop() {
     requestAnimationFrame(loop)
+    if (!tabVisible) return  // Skip all work when tab is hidden
     lenis.raf(performance.now())
     const dt = clock.getDelta()
     state.elapsedTime += dt
@@ -174,9 +181,18 @@ function initMobile3D() {
     }
   }, { passive: true })
 
-  ;(function loop() {
+  // Throttle to ~30fps on mobile for smoother performance
+  let lastFrame = 0
+  const FRAME_INTERVAL = 1000 / 30  // 30fps cap
+
+  ;(function loop(now) {
     requestAnimationFrame(loop)
-    // No lenis.raf() on mobile
+    if (!tabVisible) return  // Skip all work when tab is hidden
+
+    // Throttle to 30fps on mobile
+    if (now - lastFrame < FRAME_INTERVAL) return
+    lastFrame = now
+
     const dt = clock.getDelta()
     state.elapsedTime += dt
 
@@ -189,12 +205,12 @@ function initMobile3D() {
     tickBackground()
     accent.intensity = 0.9 + Math.sin(state.elapsedTime * 1.6) * 0.25
     renderer.render(scene, camera)
-  })()
+  })(performance.now())
 }
 
 function createMobileRenderer() {
-  const r = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-  r.setPixelRatio(Math.min(window.devicePixelRatio, 2))  // cap at 2 for smoother rendering
+  const r = new THREE.WebGLRenderer({ antialias: false, alpha: true })  // No AA on mobile — big perf win
+  r.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))  // Cap at 1.5x for better frame rate
   r.setSize(window.innerWidth, window.innerHeight)
   r.outputEncoding       = THREE.sRGBEncoding
   r.toneMapping         = THREE.ACESFilmicToneMapping
@@ -341,7 +357,7 @@ function initCardMini3D() {
 
   ;(function tick() {
     requestAnimationFrame(tick);
-    if (state.activeOverlay !== 'about') return;
+    if (!tabVisible || state.activeOverlay !== 'about') return;
 
     const spring  = -0.022 * (phy.angle - phy.targetAngle);
     const damping = -0.038 *  phy.velocity;

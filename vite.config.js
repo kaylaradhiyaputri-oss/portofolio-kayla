@@ -35,6 +35,15 @@ export default defineConfig({
       input: {
         main: 'index.html',
       },
+      output: {
+        // Split large libraries into separate chunks for better caching
+        manualChunks: {
+          'vendor-three': ['three'],
+          'vendor-lenis': ['@studio-freight/lenis'],
+        },
+      },
     },
+    // Reduce CSS chunk size
+    cssCodeSplit: false,
   },
 });
