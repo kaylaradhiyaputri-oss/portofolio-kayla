@@ -206,7 +206,28 @@ function renderItems(items) {
     btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.id)));
   });
   container.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', () => deleteItem(parseInt(btn.dataset.id)));
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      // First click: show confirm state on button
+      if (btn.dataset.confirming !== 'true') {
+        btn.dataset.confirming = 'true';
+        btn.textContent = 'Sure?';
+        btn.style.background = '#e74c3c';
+        // Reset after 3 seconds if not confirmed
+        btn._resetTimer = setTimeout(() => {
+          btn.dataset.confirming = 'false';
+          btn.textContent = 'Delete';
+          btn.style.background = '';
+        }, 3000);
+        return;
+      }
+      // Second click: actually delete
+      clearTimeout(btn._resetTimer);
+      btn.dataset.confirming = 'false';
+      btn.textContent = '...';
+      btn.disabled = true;
+      deleteItem(id);
+    });
   });
 }
 
@@ -423,11 +444,10 @@ function closeEditModal() {
 async function deleteItem(id) {
   const item = allItems.find(i => i.id === id);
   if (!item) return;
-  if (!confirm(`Delete "${item.title}"? This cannot be undone.`)) return;
 
   try {
     await apiFetch(`/items/${id}`, { method: 'DELETE' });
-    showToast('Item deleted.');
+    showToast(`"${item.title}" deleted.`);
     loadStats();
     loadItems();
   } catch (err) {
