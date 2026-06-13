@@ -1172,7 +1172,14 @@ function addMobileVideoPlayButtons() {
       e.stopPropagation()
       if (video) {
         video.style.pointerEvents = 'auto'
-        video.play()
+        // Remove native controls on mobile to avoid black overlay bar
+        video.removeAttribute('controls')
+        video.play().catch(() => {})
+        // Tap video to toggle play/pause (since native controls are gone)
+        video.addEventListener('click', () => {
+          if (video.paused) video.play().catch(() => {})
+          else video.pause()
+        })
       } else if (iframe) {
         iframe.style.pointerEvents = 'auto'
         // Trigger iframe click to start playback
