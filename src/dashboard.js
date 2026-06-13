@@ -415,7 +415,7 @@ function initEditModal() {
 }
 
 function openEditModal(id) {
-  const item = allItems.find(i => i.id === id);
+  const item = allItems.find(i => String(i.id) === String(id));
   if (!item) return;
   currentEditId = id;
 
@@ -442,7 +442,7 @@ function closeEditModal() {
 // DELETE
 // ══════════════════════════════════════
 async function deleteItem(id) {
-  const item = allItems.find(i => i.id === id);
+  const item = allItems.find(i => String(i.id) === String(id));
   if (!item) return;
 
   try {
