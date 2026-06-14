@@ -696,6 +696,34 @@ canvas { display: block; }
   width: min(360px, 84vw);
 }
 
+/* ── Logo images ── */
+.loading-logo {
+  width: clamp(80px, 20vw, 140px);
+  height: auto;
+  display: block;
+  margin: 0 auto 40px;
+  opacity: 0.9;
+  filter: brightness(1.1);
+}
+.mh-logo {
+  width: clamp(48px, 12vw, 72px);
+  height: auto;
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+.dn-logo {
+  width: clamp(80px, 20vw, 140px);
+  height: auto;
+  display: block;
+  margin: 0 auto 48px;
+}
+.footer-logo {
+  height: clamp(40px, 6vw, 80px);
+  width: auto;
+  display: block;
+}
+
 /* Shopify Winter 2026 — stark, rectangular, no curves */
 .loading-brand {
   font-family: 'Playfair Display', serif;
@@ -1009,8 +1037,8 @@ canvas { display: block; }
    MOBILE — reduced 3D scene (no starfield,
    smaller model, no scroll, tap interaction)
    ════════════════════════════════════════════ */
-/* ── Mobile hero — small branding strip at top, non-blocking ── */
-body.mobile-mode .mobile-hero { display: none; }
+/* ── Mobile hero — branding strip, shown on mobile only ── */
+body.mobile-mode .mobile-hero { display: flex; }
 body:not(.mobile-mode) .mobile-hero { display: none; }
 
 .mobile-hero {
