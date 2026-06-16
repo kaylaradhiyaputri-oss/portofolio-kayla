@@ -669,121 +669,124 @@ canvas { display: block; }
 
 
 /* ════════════════════════════════════════════
-   LOADING SCREEN — Shopify Winter 2026 style
-   Square/rectangular progress bar, stark minimal
+   LOADING SCREEN — Animated KAYL logo
    ════════════════════════════════════════════ */
 #loading-screen {
   position: fixed; inset: 0; z-index: 9000;
-  background: #060606;
-  display: flex; align-items: center; justify-content: center;
+  background: #080808;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   overflow: hidden;
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 #loading-screen.login-exit {
-  opacity: 0; transform: scale(1.04); pointer-events: none;
+  opacity: 0; visibility: hidden; pointer-events: none;
 }
 
-/* Noise texture overlay */
-.login-noise {
-  position: absolute; inset: 0; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  pointer-events: none;
+.logo-ring-wrap {
+  position: relative;
+  width: 110px; height: 110px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 32px;
+}
+.ring {
+  position: absolute; width: 88px; height: 88px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(29, 158, 117, 0.25);
+  animation: ringExpand 2.4s ease-out infinite;
+}
+.ring:nth-child(2) { animation-delay: 0.8s; }
+.ring:nth-child(3) { animation-delay: 1.6s; }
+@keyframes ringExpand {
+  0%   { transform: scale(0.7); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
-.login-content {
-  position: relative; text-align: left; z-index: 1;
-  width: min(360px, 84vw);
+.logo-spin {
+  width: 64px; height: 64px;
+  position: relative; z-index: 2;
+  animation: spinPulse 3s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+             glowPulse 3s ease-in-out infinite;
+}
+.trail {
+  position: absolute; width: 64px; height: 64px;
+  animation: trailFade 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  opacity: 0;
+}
+.trail:nth-child(4) { animation-delay: -0.12s; }
+.trail:nth-child(5) { animation-delay: -0.22s; }
+@keyframes spinPulse {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.08); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px #5DCAA5) drop-shadow(0 0 20px rgba(29,158,117,0.33)); }
+  50%       { filter: drop-shadow(0 0 18px #9FE1CB) drop-shadow(0 0 40px rgba(93,202,165,0.53)); }
+}
+@keyframes trailFade {
+  0%   { opacity: 0; transform: rotate(0deg) scale(0.85); }
+  30%  { opacity: 0.25; }
+  100% { opacity: 0; transform: rotate(180deg) scale(1.1); }
+}
+
+.loading-label {
+  font-size: 11px; letter-spacing: 0.15em;
+  color: #3a3a3a; margin-bottom: 22px;
+  text-transform: uppercase;
+  animation: textFadeIn 1.2s ease forwards 0.3s;
+  opacity: 0;
+}
+@keyframes textFadeIn {
+  from { opacity: 0; letter-spacing: 0.3em; }
+  to   { opacity: 1; letter-spacing: 0.15em; }
+}
+
+.bar-track {
+  width: 220px; height: 3px;
+  background: #1a1a1a; border-radius: 99px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%; width: 0%; border-radius: 99px;
+  background: linear-gradient(90deg, #085041, #1D9E75, #9FE1CB, #1D9E75, #085041);
+  background-size: 200% 100%;
+  animation: loadBarShimmer 1.8s linear infinite;
+  transition: width 0.3s ease-out;
+}
+@keyframes loadBarShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.dots-row {
+  display: flex; gap: 5px; margin-top: 16px;
+}
+.dot {
+  width: 3px; height: 12px; border-radius: 2px;
+  background: #1D9E75;
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+.dot:nth-child(1) { animation-delay: 0s; }
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+.dot:nth-child(4) { animation-delay: 0.45s; }
+.dot:nth-child(5) { animation-delay: 0.6s; }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scaleY(0.5); opacity: 0.4; }
+  40%            { transform: scaleY(1.2); opacity: 1; }
 }
 
 /* ── Logo images ── */
-.loading-logo {
-  width: clamp(80px, 20vw, 140px);
-  height: auto;
-  display: block;
-  margin: 0 auto 40px;
-  opacity: 0.9;
-  filter: brightness(1.1);
-}
 .mh-logo {
   width: clamp(48px, 12vw, 72px);
-  height: auto;
-  display: block;
-  margin-bottom: 12px;
-  opacity: 0.85;
+  height: auto; display: block;
+  margin-bottom: 0; opacity: 0.85;
 }
 .dn-logo {
   width: clamp(80px, 20vw, 140px);
-  height: auto;
-  display: block;
+  height: auto; display: block;
   margin: 0 auto 48px;
-}
-.footer-logo {
-  height: clamp(40px, 6vw, 80px);
-  width: auto;
-  display: block;
-}
-
-/* Shopify Winter 2026 — stark, rectangular, no curves */
-.loading-brand {
-  font-family: 'Playfair Display', serif;
-  font-style: italic; font-weight: 900;
-  font-size: clamp(32px, 8vw, 52px);
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(140,173,156,0.5);
-  letter-spacing: -2px;
-  display: block;
-  margin-bottom: 40px;
-  line-height: 1;
-}
-
-.loading-bar-wrap {
-  display: flex; flex-direction: column; gap: 12px;
-  width: 100%;
-}
-
-/* FIX: Square/rectangular bar — Shopify style, NO border-radius */
-.loading-bar-track {
-  width: 100%; height: 2px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 0; /* square */
-  overflow: visible;
-  position: relative;
-}
-
-.loading-bar-fill {
-  height: 100%; width: 0%;
-  background: var(--accent);
-  border-radius: 0; /* square */
-  transition: width 0.3s ease-out;
-  box-shadow: 0 0 12px var(--accent-glow);
-  position: relative;
-}
-
-/* Indicator dot at end of bar */
-.loading-bar-fill::after {
-  content: '';
-  position: absolute; right: -1px; top: 50%;
-  transform: translateY(-50%);
-  width: 4px; height: 4px;
-  background: #fff;
-  box-shadow: 0 0 8px var(--accent);
-}
-
-.loading-bar-meta {
-  display: flex; align-items: center; justify-content: space-between;
-}
-
-.loading-pct {
-  font-size: 9px; letter-spacing: 3px; color: var(--accent);
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 600;
-}
-
-.login-note {
-  font-size: 9px; letter-spacing: 2px;
-  color: rgba(255,255,255,0.2);
-  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 
@@ -798,50 +801,55 @@ canvas { display: block; }
    FOOTER
    ════════════════════════════════════════════ */
 .site-footer {
-  position: relative; background: #050505;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding: 64px clamp(24px, 6vw, 80px) 40px;
-  z-index: 1;
-  /* FIX: ensure footer takes full width */
-  width: 100%; flex-shrink: 0;
+  position: relative; background: #080808;
+  border-top: 0.5px solid #0f2018;
+  padding: 40px 24px 32px;
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 1; width: 100%; flex-shrink: 0;
 }
-.footer-inner { max-width: 1200px; margin: 0 auto; }
-.footer-top {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 32px; flex-wrap: wrap; gap: 12px;
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
-.footer-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(56px, 10vw, 120px); font-weight: 900; font-style: italic;
-  color: transparent; -webkit-text-stroke: 1px rgba(140,173,156,0.25);
-  letter-spacing: -3px; line-height: 1; user-select: none;
-  transition: -webkit-text-stroke-color 0.4s;
+.footer-logo-row {
+  display: flex; align-items: center; gap: 13px;
 }
-.themed-kayl {
-  font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic;
-  background: linear-gradient(135deg, var(--accent), #fff);
+.footer-logo-icon {
+  width: 32px; height: 32px;
+  animation: footerFloat 4s ease-in-out infinite, glowPulse 4s ease-in-out infinite;
+}
+@keyframes footerFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+.footer-wordmark {
+  font-size: 18px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  background: linear-gradient(135deg, #9FE1CB 0%, #1D9E75 50%, #0F6E56 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0; letter-spacing: -4px;
+  background-clip: text;
 }
-.footer-tagline {
-  font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,0.2);
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  text-transform: uppercase; align-self: flex-end; padding-bottom: 12px;
+.footer-divider {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(29,158,117,0.4), transparent);
 }
-.footer-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 28px; }
+.footer-tagline-new {
+  font-size: 11px; color: #333;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
 .footer-bottom {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 16px; margin-top: 4px;
 }
-.footer-links { display: flex; gap: 28px; }
+.footer-links { display: flex; gap: 24px; }
 .footer-link {
-  background: none; border: none; color: rgba(255,255,255,0.35);
-  font-size: 11px; letter-spacing: 2px; cursor: pointer;
-  text-decoration: none; font-family: 'Helvetica Neue', Arial, sans-serif;
-  transition: color 0.2s; text-transform: uppercase; padding: 0;
+  background: none; border: none; color: #2a2a2a;
+  font-size: 11px; letter-spacing: 0.08em; cursor: pointer;
+  text-decoration: none; font-family: 'Inter', sans-serif;
+  transition: color 0.3s; text-transform: uppercase; padding: 0;
 }
-.footer-link:hover { color: var(--accent); }
-.footer-copy { font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 1px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+.footer-link:hover { color: #5DCAA5; }
+.footer-copy { font-size: 10px; color: #1e1e1e; letter-spacing: 0.06em; margin-top: 6px; }
 
 
 /* ════════════════════════════════════════════
