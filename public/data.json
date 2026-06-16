@@ -50,18 +50,6 @@
       "created_at": "2026-06-14T00:11:57.106Z"
     },
     {
-      "id": "32",
-      "title": "EFEST Mascot",
-      "category": "graphic_design",
-      "category_label": "Graphic Design",
-      "file_path": "/graphic design/MASKOT-05.png",
-      "file_type": "image",
-      "size_class": "size-tall",
-      "is_extra": false,
-      "display_order": 0,
-      "created_at": "2026-06-16T12:49:07.856Z"
-    },
-    {
       "id": "1",
       "title": "Arctic Monkeys Edit",
       "category": "graphic_design",
@@ -122,16 +110,16 @@
       "created_at": "2026-06-16T12:47:29.373Z"
     },
     {
-      "id": "29",
-      "title": "SFC",
+      "id": "33",
+      "title": "DigiClass (Must bring items)",
       "category": "graphic_design",
       "category_label": "Graphic Design",
-      "file_path": "/graphic design/CALLING OUT SPONSOR.png",
+      "file_path": "/graphic design/Artboard 4.png",
       "file_type": "image",
       "size_class": "size-medium",
       "is_extra": false,
-      "display_order": 4,
-      "created_at": "2026-06-16T12:44:58.130Z"
+      "display_order": 3,
+      "created_at": "2026-06-16T12:50:53.620Z"
     },
     {
       "id": "4",
@@ -146,6 +134,18 @@
       "created_at": "2026-06-13T01:07:09.376Z"
     },
     {
+      "id": "29",
+      "title": "SFC",
+      "category": "graphic_design",
+      "category_label": "Graphic Design",
+      "file_path": "/graphic design/CALLING OUT SPONSOR.png",
+      "file_type": "image",
+      "size_class": "size-medium",
+      "is_extra": false,
+      "display_order": 4,
+      "created_at": "2026-06-16T12:44:58.130Z"
+    },
+    {
       "id": "5",
       "title": "Deftones",
       "category": "graphic_design",
@@ -156,6 +156,30 @@
       "is_extra": true,
       "display_order": 5,
       "created_at": "2026-06-13T01:07:09.376Z"
+    },
+    {
+      "id": "32",
+      "title": "EFEST Mascot",
+      "category": "graphic_design",
+      "category_label": "Graphic Design",
+      "file_path": "/graphic design/MASKOT-05.png",
+      "file_type": "image",
+      "size_class": "size-medium",
+      "is_extra": false,
+      "display_order": 5,
+      "created_at": "2026-06-16T12:49:07.856Z"
+    },
+    {
+      "id": "34",
+      "title": "DigiClass (Poster)",
+      "category": "graphic_design",
+      "category_label": "Graphic Design",
+      "file_path": "/graphic design/isi open regist.jpg",
+      "file_type": "image",
+      "size_class": "size-medium",
+      "is_extra": false,
+      "display_order": 6,
+      "created_at": "2026-06-16T12:51:22.036Z"
     },
     {
       "id": "6",
